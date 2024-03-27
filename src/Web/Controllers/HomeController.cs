@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Web.Models;
+using Web.ViewModels;
 
 namespace Web.Controllers;
 
@@ -10,14 +10,21 @@ public partial class HomeController(ILogger<HomeController> logger) : Controller
 
     public IActionResult Index() => View();
 
+    [Route("/Error/{statusCode:int?}")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult Error(int? statusCode)
     {
         var requestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
-        LogRequestIdOnError(requestId);
-        return View(new ErrorViewModel { RequestId = requestId });
+        LogRequestIdOnError(statusCode, requestId);
+        return View(new ErrorViewModel
+        {
+            ErrorMessage = statusCode == 404
+                ? "We can't seem to find the page you're looking for."
+                : "There was an unexpected problem serving the requested page.",
+            RequestId = requestId
+        });
     }
 
-    [LoggerMessage(0, LogLevel.Information, "Error on request with id: {requestId}")]
-    partial void LogRequestIdOnError(string requestId);
+    [LoggerMessage(0, LogLevel.Information, "Error {statusCode} on request with id: {requestId}")]
+    partial void LogRequestIdOnError(int? statusCode, string requestId);
 }
