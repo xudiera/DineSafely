@@ -16,6 +16,7 @@ public class HomeControllerTests
     public void ErrorReturnsValidStatusCodeAndErrorMessage(int? statusCode, string errorMessage)
     {
         // Arrange
+        var traceIdentifier = "trace identifier";
         var logger = Substitute.For<ILogger<HomeController>>();
         using var controller = new HomeController(logger);
         controller.ControllerContext = new ControllerContext
@@ -31,6 +32,6 @@ public class HomeControllerTests
         var viewResult = Assert.IsType<ViewResult>(result);
         var model = Assert.IsType<ErrorViewModel>(viewResult.ViewData.Model);
         Assert.Equal(errorMessage, model.ErrorMessage);
+        Assert.Equal(traceIdentifier, model.RequestId);
     }
-
 }
