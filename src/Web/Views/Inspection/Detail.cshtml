@@ -8,9 +8,18 @@
     var establishment = Model.InspectionDetails.First().Inspection.Establishment;
 }
 <div class="card mb-4">
-    <h3 class="card-header">
-        @establishment.Name
-    </h3>
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                <h3>
+                    @establishment.Name
+                </h3>
+            </div>
+            <div class="col text-end">
+                <a class="btn btn-success" target="_blank" rel="noreferrer" href="@Model.MapUrl">Show in Map</a>
+            </div>
+        </div>
+    </div>
     <div class="card-body">
         <div class="row">
             <div class="col">
