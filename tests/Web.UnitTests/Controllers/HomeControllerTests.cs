@@ -34,4 +34,18 @@ public class HomeControllerTests
         Assert.Equal(errorMessage, model.ErrorMessage);
         Assert.Equal(traceIdentifier, model.RequestId);
     }
+
+    [Fact]
+    public void Index_ReturnsViewResult()
+    {
+        // Arrange
+        var logger = Substitute.For<ILogger<HomeController>>();
+        using var controller = new HomeController(logger);
+
+        // Act
+        var result = controller.Index();
+
+        // Assert
+        Assert.IsType<ViewResult>(result);
+    }
 }
