@@ -6,8 +6,6 @@ namespace Web.Controllers;
 
 public class EstablishmentController(IEstablishmentRepository establishmentRepository) : Controller
 {
-    private readonly IEstablishmentRepository establishmentRepository = establishmentRepository;
-
     public async Task<IActionResult> SearchAsync(SearchViewModel searchViewModel)
     {
         if (searchViewModel is null || !ModelState.IsValid)
