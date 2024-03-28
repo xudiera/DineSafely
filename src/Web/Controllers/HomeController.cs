@@ -6,7 +6,7 @@ namespace Web.Controllers;
 
 public partial class HomeController(ILogger<HomeController> logger) : Controller
 {
-    private readonly ILogger<HomeController> _logger = logger;
+    private readonly ILogger<HomeController> logger = logger;
 
     public IActionResult Index() => View();
 
@@ -26,5 +26,5 @@ public partial class HomeController(ILogger<HomeController> logger) : Controller
     }
 
     [LoggerMessage(0, LogLevel.Information, "Error {statusCode} on request with id: {requestId}")]
-    partial void LogRequestIdOnError(int? statusCode, string requestId);
+    private partial void LogRequestIdOnError(int? statusCode, string requestId);
 }

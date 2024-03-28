@@ -1,0 +1,38 @@
+@model Web.ViewModels.SearchViewModel
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+@await Html.PartialAsync("_Search.cshtml")
+@if (Model is not null)
+{
+    @if (Model.Establishments.Any())
+    {
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var establishment in Model.Establishments)
+                {
+                    <tr>
+                        <td>@establishment.Name</td>
+                        <td>@establishment.Address</td>
+                        <td>@establishment.Type</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info text-center" role="alert">
+            <h4 class="alert-heading">We could not found any establishment matching your search!</h4>
+        </div>
+    }
+}
