@@ -47,3 +47,8 @@ dotnet_diagnostic.IDE0058.severity = none
 
 # Use block-scoped namespace
 dotnet_diagnostic.IDE0160.severity = none
+
+# Disable "Remove unnecessary case label"
+# Conflicts with IDE0010 "Populate switch"
+# I'd prefer to be more explicit about cases.
+dotnet_diagnostic.RCS1069.severity = none

@@ -9,9 +9,17 @@ public class InspectionController(IInspectionDetailRepository inspectionDetailRe
     public async Task<IActionResult> DetailAsync(int id, int? pageIndex)
     {
         var inspectionDetails = await inspectionDetailRepository.GetByEstablishmentIdAsync(id, pageIndex ?? 1);
+        if (!inspectionDetails.Any())
+        {
+            return NotFound();
+        }
 
-        return !inspectionDetails.Any()
-            ? NotFound()
-            : View(new InspectionDetailViewModel { Id = id, InspectionDetails = inspectionDetails });
+        var severityGroups = await inspectionDetailRepository.GetGroupBySeverity(id);
+
+        return View(new InspectionDetailViewModel(severityGroups)
+        {
+            Id = id,
+            InspectionDetails = inspectionDetails
+        });
     }
 }

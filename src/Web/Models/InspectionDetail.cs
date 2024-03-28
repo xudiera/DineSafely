@@ -3,6 +3,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Web.Models;
 
+public enum Severity
+{
+    NotApplicable = 0,
+    Minor = 1,
+    Significant = 2,
+    Crucial = 3
+}
+
+public enum Status
+{
+    Pass = 0,
+    ConditionalPass = 1,
+    Closed = 2
+}
+
 public class InspectionDetail
 {
     /// <summary>
@@ -50,11 +65,13 @@ public class InspectionDetail
     /// Level of the infraction, i.e. S - Significant, M - Minor, C - Crucial.
     /// </summary>
     [StringLength(50)]
-    public string? Severity { get; set; }
+    [Column(TypeName = "character varying(50)")]
+    public Severity? Severity { get; set; }
 
     /// <summary>
     /// Pass, Conditional Pass, Closed.
     /// </summary>
     [StringLength(50)]
-    public required string Status { get; set; }
+    [Column(TypeName = "character varying(50)")]
+    public required Status Status { get; set; }
 }

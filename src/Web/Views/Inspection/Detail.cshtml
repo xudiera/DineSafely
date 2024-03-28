@@ -1,3 +1,4 @@
+@using Web.Extensions
 @model InspectionDetailViewModel
 
 @{
@@ -37,6 +38,30 @@
                 <h5 class="text-info">Minimum Inspections Per Year:</h5>
                 @establishment.MinimumInspectionsPerYear
             </div>
+            <div>
+                <div class="progress-stacked">
+                    <div class="progress" role="progressbar" aria-label="@Model.PercentageRemaining%"
+                        aria-valuenow="@Model.PercentageRemaining" aria-valuemin="0" aria-valuemax="100"
+                        style="width: @Model.PercentageRemaining%">
+                        <div class="progress-bar bg-success">@Model.PercentageRemaining%</div>
+                    </div>
+                    <div class="progress" role="progressbar" aria-label="Minor: @Model.PercentageMinor%"
+                        aria-valuenow="@Model.PercentageMinor" aria-valuemin="0" aria-valuemax="100"
+                        style="width: @Model.PercentageMinor%">
+                        <div class="progress-bar bg-secondary">Minor: @Model.PercentageMinor%</div>
+                    </div>
+                    <div class="progress" role="progressbar" aria-label="Significant @Model.PercentageSignificant%"
+                        aria-valuenow="@Model.PercentageSignificant" aria-valuemin="0" aria-valuemax="100"
+                        style="width: @Model.PercentageSignificant%">
+                        <div class="progress-bar bg-warning">Significant: @Model.PercentageSignificant%</div>
+                    </div>
+                    <div class="progress" role="progressbar" aria-label="Crucial: @Model.PercentageCrucial%"
+                        aria-valuenow="@Model.PercentageCrucial" aria-valuemin="0" aria-valuemax="100"
+                        style="width: @Model.PercentageCrucial%">
+                        <div class="progress-bar bg-danger">Crucial: @Model.PercentageCrucial%</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -57,17 +82,10 @@
         <tbody>
             @foreach (var inspectionDetails in Model.InspectionDetails)
             {
-                var rowClass = inspectionDetails.Severity switch
-                {
-                    "M - Minor" => "table-secondary",
-                    "S - Significant" => "table-warning",
-                    "C - Crucial" => "table-danger",
-                    _ => string.Empty
-                };
-                <tr class="@rowClass">
+                <tr class="@Model.RowCssClass(inspectionDetails.Severity)">
                     <td>@inspectionDetails.Inspection.Date?.ToString("MMM dd, yyyy")</td>
-                    <td>@inspectionDetails.Status</td>
-                    <td>@inspectionDetails.Severity</td>
+                    <td>@inspectionDetails.Status.ToReadableString()</td>
+                    <td>@inspectionDetails.Severity.ToReadableString()</td>
                     <td>@inspectionDetails.InfractionDetails</td>
                     <td>@inspectionDetails.Action</td>
                     <td>@inspectionDetails.CourtOutcome</td>

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Web.Data.DTOs;
 using Web.Models;
 
 namespace Web.Data.Repositories;
@@ -35,4 +36,21 @@ public class InspectionDetailRepository(ApplicationDbContext applicationDbContex
 
         return new PaginatedList<InspectionDetail>(inspectionDetails, totalItems, pageIndex, PageSize);
     }
+
+    public async Task<List<SeverityGroupDTO>> GetGroupBySeverity(int establishmentId)
+        => await Context.InspectionDetails
+            .Join(Context.Inspections,
+                    inspectionDetail => inspectionDetail.InspectionId,
+                    inspection => inspection.Id,
+                    (inspectionDetail, inspection) => new { InspectionDetail = inspectionDetail, Inspection = inspection }
+                    )
+            .Where(combined => combined.Inspection.EstablishmentId == establishmentId)
+            .GroupBy(combined => combined.InspectionDetail.Severity)
+            .Select(groupedData => new SeverityGroupDTO
+            {
+                Severity = groupedData.Key,
+                Count = groupedData.Count()
+            })
+            .AsNoTracking()
+            .ToListAsync();
 }
