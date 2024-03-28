@@ -16,7 +16,7 @@ public class EstablishmentController(IEstablishmentRepository establishmentRepos
         }
 
         searchViewModel.Establishments = await establishmentRepository
-            .GetEstablishmentsAsync(searchViewModel.Name, searchViewModel.Address);
+            .GetEstablishmentsAsync(searchViewModel.Name, searchViewModel.Address, searchViewModel.PageIndex ?? 1);
 
         return View(searchViewModel);
     }

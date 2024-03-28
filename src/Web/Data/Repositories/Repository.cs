@@ -5,6 +5,8 @@ public abstract class Repository(ApplicationDbContext applicationDbContext) : ID
 {
     public ApplicationDbContext Context { get; } = applicationDbContext;
 
+    protected const int PageSize = 10;
+
     private bool disposed;
 
     protected virtual void Dispose(bool disposing)

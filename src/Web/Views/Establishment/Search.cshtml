@@ -7,7 +7,7 @@
 @await Html.PartialAsync("_Search.cshtml")
 @if (Model is not null)
 {
-    @if (Model.Establishments.Any())
+    @if (Model.Establishments is not null && Model.Establishments.Any())
     {
         <table class="table table-hover">
             <thead>
@@ -28,6 +28,7 @@
                 }
             </tbody>
         </table>
+        @await Html.PartialAsync("_PaginationPartial", new PaginationViewModel { Href = $"search?name={@Model.Name}&address={@Model.Address}", PaginatedList = Model.Establishments })
     }
     else
     {
