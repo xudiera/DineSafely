@@ -5,7 +5,7 @@ namespace Web.Data.Repositories;
 
 public class EstablishmentRepository(ApplicationDbContext applicationDbContext) : Repository(applicationDbContext), IEstablishmentRepository
 {
-    public async Task<PaginatedList<Establishment>> GetEstablishmentsAsync(string name, string? address, int pageIndex)
+    public async Task<PaginatedList<Establishment>> GetAsync(string name, string? address, int pageIndex)
     {
         name = name.ToLowerInvariant();
         address = address?.ToLowerInvariant();
@@ -29,4 +29,15 @@ public class EstablishmentRepository(ApplicationDbContext applicationDbContext) 
 
         return new PaginatedList<Establishment>(establishments, totalItems, pageIndex, PageSize);
     }
+
+    public async Task<Establishment?> GetByIdAsync(int id)
+        => await Context
+            .Establishments
+            .Include(establishment => establishment
+                .Inspections
+                .OrderByDescending(inspection => inspection.Date))
+            .ThenInclude(inspection => inspection.InspectionDetails)
+            .AsSplitQuery()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(e => e.Id == id);
 }

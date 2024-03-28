@@ -21,14 +21,22 @@
                 @foreach (var establishment in Model.Establishments)
                 {
                     <tr>
-                        <td>@establishment.Name</td>
+                        <td>
+                            <a asp-controller="inspection" asp-action="detail" asp-route-id="@establishment.Id">
+                                @establishment.Name
+                            </a>
+                        </td>
                         <td>@establishment.Address</td>
                         <td>@establishment.Type</td>
                     </tr>
                 }
             </tbody>
         </table>
-        @await Html.PartialAsync("_PaginationPartial", new PaginationViewModel { Href = $"search?name={@Model.Name}&address={@Model.Address}", PaginatedList = Model.Establishments })
+        @await Html.PartialAsync("_PaginationPartial", new PaginationViewModel
+        {
+            Href = $"search?name={@Model.Name}&address={@Model.Address}",
+            PaginatedList = Model.Establishments
+        })
     }
     else
     {
