@@ -22,7 +22,7 @@
 	"forwardPorts": [5432],
 
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "dotnet tool restore",
+    "postCreateCommand": "bash .devcontainer/post-create.sh",
     "customizations": {
         "vscode": {
             "extensions": [
