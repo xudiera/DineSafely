@@ -13,7 +13,6 @@ public class InspectionDetailRepository(ApplicationDbContext applicationDbContex
                     inspection => inspection.Id,
                     (inspectionDetail, inspection) => new { InspectionDetail = inspectionDetail, Inspection = inspection }
                     )
-                .OrderByDescending(e => e.Inspection.Date)
                 .Where(e => e.Inspection.EstablishmentId == id)
                 .CountAsync();
 
