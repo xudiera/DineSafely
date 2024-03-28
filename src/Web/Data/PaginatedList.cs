@@ -1,5 +1,9 @@
 namespace Web.Data;
 
+/// <summary>
+/// Represents a paginated list of items.
+/// </summary>
+/// <typeparam name="T">The type of items in the list.</typeparam>
 public class PaginatedList<T> : List<T>, IPaginatedList
 {
     /// <summary>
@@ -11,8 +15,20 @@ public class PaginatedList<T> : List<T>, IPaginatedList
     /// <param name="pageSize">The page size to create.</param>
     public PaginatedList(IEnumerable<T> items, int totalItems, int pageIndex, int pageSize)
     {
+        if (pageIndex < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(pageIndex), "Page index must be greater than or equal to 1.");
+        }
+
+        if (pageSize <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size must be greater than 0.");
+        }
+
         AddRange(items);
         PageIndex = pageIndex;
+
+        // Ensures that the total pages calculation is rounded up, providing an accurate count for partial pages.
         TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
     }
 
