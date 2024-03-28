@@ -9,16 +9,16 @@ namespace Web.UnitTests.Controllers;
 public class EstablishmentControllerTests
 {
     [Fact]
-    public async Task SearchWithInvalidSearchViewModel_ReturnsViewResultWithNullModel()
+    public async Task SearchAsync_InvalidViewModel_ReturnsInvalidSearchView()
     {
         // Arrange
-        var searchViewModel = new SearchViewModel { Name = string.Empty };
-        var establishmentRepository = Substitute.For<IEstablishmentRepository>();
-        using var establishmentController = new EstablishmentController(establishmentRepository);
-        establishmentController.ViewData.ModelState.AddModelError("key", "Error message");
+        var mockRepository = Substitute.For<IEstablishmentRepository>();
+        using var controller = new EstablishmentController(mockRepository);
+        controller.ModelState.AddModelError("TestKey", "TestError"); // Simulate invalid model state
+        var invalidViewModel = new SearchViewModel { Name = string.Empty };
 
         // Act
-        var result = await establishmentController.SearchAsync(searchViewModel);
+        var result = await controller.SearchAsync(invalidViewModel);
 
         // Assert
         var viewResult = Assert.IsType<ViewResult>(result);
@@ -26,18 +26,22 @@ public class EstablishmentControllerTests
     }
 
     [Theory]
-    [InlineData("Restaurant", null)]
-    [InlineData("Restaurant", "")]
-    [InlineData("Restaurant", "Address")]
-    public async Task SearchWithValidSearchViewModel_ReturnsValidViewModel(string name, string? address)
+    [InlineData("TestName", null)]
+    [InlineData("TestName", "")]
+    [InlineData("TestName", "TestAddress")]
+    public async Task SearchAsync_ValidViewModel_ReturnsSearchViewWithEstablishments(string name, string? address)
     {
         // Arrange
-        var searchViewModel = new SearchViewModel { Name = name, Address = address };
-        var establishmentRepository = Substitute.For<IEstablishmentRepository>();
-        using var establishmentController = new EstablishmentController(establishmentRepository);
+        var mockRepository = Substitute.For<IEstablishmentRepository>();
+        using var controller = new EstablishmentController(mockRepository);
+        var validViewModel = new SearchViewModel
+        {
+            Name = name,
+            Address = address
+        };
 
         // Act
-        var result = await establishmentController.SearchAsync(searchViewModel);
+        var result = await controller.SearchAsync(validViewModel);
 
         // Assert
         var viewResult = Assert.IsType<ViewResult>(result);
