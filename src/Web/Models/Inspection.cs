@@ -10,6 +10,11 @@ public class Inspection
     public DateOnly? Date { get; set; }
 
     /// <summary>
+    /// The establishment related to the inspection.
+    /// </summary>
+    public Establishment Establishment { get; set; } = null!;
+
+    /// <summary>
     /// Unique identifier for an establishment.
     /// </summary>
     public int EstablishmentId { get; set; }

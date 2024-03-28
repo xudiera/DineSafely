@@ -1,16 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Web.Data.Repositories;
+using Web.ViewModels;
 
 namespace Web.Controllers;
 
-public class InspectionController(IEstablishmentRepository establishmentRepository) : Controller
+public class InspectionController(IInspectionDetailRepository inspectionDetailRepository) : Controller
 {
-    public async Task<IActionResult> DetailAsync(int id)
+    public async Task<IActionResult> DetailAsync(int id, int? pageIndex)
     {
-        var establishment = await establishmentRepository.GetByIdAsync(id);
+        var inspectionDetails = await inspectionDetailRepository.GetByEstablishmentIdAsync(id, pageIndex ?? 1);
 
-        return establishment is null
+        return !inspectionDetails.Any()
             ? NotFound()
-            : View(establishment);
+            : View(new InspectionDetailViewModel { Id = id, InspectionDetails = inspectionDetails });
     }
 }

@@ -1,34 +1,37 @@
-@model Web.Models.Establishment
+@model InspectionDetailViewModel
 
 @{
     ViewData["Title"] = "Inspection Details";
 }
 
+@{
+    var establishment = Model.InspectionDetails.First().Inspection.Establishment;
+}
 <div class="card mb-4">
     <h3 class="card-header">
-        @Model.Name
+        @establishment.Name
     </h3>
     <div class="card-body">
         <div class="row">
             <div class="col">
                 <h5 class="text-info">Address:</h5>
                 <address>
-                    @Model.Address<br />
+                    @establishment.Address<br />
                     Toronto, Ontario
                 </address>
             </div>
             <div class="col">
                 <h5 class="text-info">Type:</h5>
-                @Model.Type
+                @establishment.Type
             </div>
             <div class="col">
                 <h5 class="text-info">Minimum Inspections Per Year:</h5>
-                @Model.MinimumInspectionsPerYear
+                @establishment.MinimumInspectionsPerYear
             </div>
         </div>
     </div>
 </div>
-@if (Model.Inspections.Any())
+@if (Model.InspectionDetails.Any())
 {
     <table class="table table-hover">
         <thead>
@@ -43,9 +46,7 @@
             </tr>
         </thead>
         <tbody>
-        @foreach (var inspection in Model.Inspections)
-        {
-            foreach (var inspectionDetails in inspection.InspectionDetails)
+            @foreach (var inspectionDetails in Model.InspectionDetails)
             {
                 var rowClass = inspectionDetails.Severity switch
                 {
@@ -55,7 +56,7 @@
                     _ => string.Empty
                 };
                 <tr class="@rowClass">
-                    <td>@inspection.Date?.ToString("MMM dd, yyyy")</td>
+                    <td>@inspectionDetails.Inspection.Date?.ToString("MMM dd, yyyy")</td>
                     <td>@inspectionDetails.Status</td>
                     <td>@inspectionDetails.Severity</td>
                     <td>@inspectionDetails.InfractionDetails</td>
@@ -64,7 +65,11 @@
                     <td>@inspectionDetails.AmountFined?.ToString("C")</td>
                 </tr>
             }
-        }
         </tbody>
     </table>
+    @await Html.PartialAsync("_PaginationPartial", new PaginationViewModel
+    {
+        Href = $"{@Model.Id}?",
+        PaginatedList = Model.InspectionDetails
+    })
 }

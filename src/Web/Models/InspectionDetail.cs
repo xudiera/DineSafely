@@ -37,6 +37,11 @@ public class InspectionDetail
     public string? InfractionDetails { get; set; }
 
     /// <summary>
+    /// The inspection related to the inspection details.
+    /// </summary>
+    public Inspection Inspection { get; set; } = null!;
+
+    /// <summary>
     /// Unique identifier for an inspection.
     /// </summary>
     public int InspectionId { get; set; }
