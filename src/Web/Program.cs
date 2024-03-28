@@ -9,7 +9,8 @@ builder.Services.AddControllersWithViews();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+builder.Services.AddDbContextPool<ApplicationDbContext>(optionsBuilder => optionsBuilder
+    .UseNpgsql(connectionString, options => options.EnableRetryOnFailure().EnableRetryOnFailure()));
 
 builder.Services.AddMiniProfiler().AddEntityFramework();
 
