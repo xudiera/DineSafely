@@ -7,7 +7,9 @@
     "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+	"features": {
+        "azure-cli": "latest"
+    },
 
 	// Configure tool-specific properties.
 	// "customizations": {},
@@ -27,7 +29,8 @@
         "vscode": {
             "extensions": [
                 "ms-dotnettools.csdevkit",
-                "ms-dotnettools.vscodeintellicode-csharp"
+                "ms-dotnettools.vscodeintellicode-csharp",
+                "ms-azuretools.vscode-bicep"
             ]
         }
     }
