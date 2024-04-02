@@ -2,9 +2,6 @@
 [Bb]in/
 [Oo]bj/
 
-# Environment file
-.env
-
 # C# Dev Kit keeps creating $HOME/Documents/.mono hidden directory with telemetry info in Linux #930
 # https://github.com/microsoft/vscode-dotnettools/issues/930
 .mono

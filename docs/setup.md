@@ -8,11 +8,4 @@
 ## Setup
 
 1. Clone the repository.
-2. On the `.devcontainer` folder add a `.env` file with the following variables (the example values must be adjusted for the configuration of your setup):
-
-> POSTGRES_HOST=db  
-> POSTGRES_DB=dinesafely  
-> POSTGRES_USER=postgres  
-> POSTGRES_PASSWORD=postgres
-
-3. Start Visual Studio Code, run the **Dev Containers: Open Folder in Container...** command from the Command Palette.
+2. Start Visual Studio Code, run the **Dev Containers: Open Folder in Container...** command from the Command Palette.
