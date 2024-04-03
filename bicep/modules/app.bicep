@@ -36,6 +36,7 @@ resource webApp 'Microsoft.Web/sites@2023-01-01' = {
   properties: {
     serverFarmId: appServicePlan.id
     siteConfig: {
+      http20Enabled: true
       linuxFxVersion: 'DOCKER|${'ghcr.io/xudiera/dinesafely'}'
       connectionStrings: connectionStrings
       appSettings: [
