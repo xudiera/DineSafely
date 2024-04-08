@@ -35,6 +35,7 @@ resource webApp 'Microsoft.Web/sites@2023-01-01' = {
   }
   properties: {
     serverFarmId: appServicePlan.id
+    clientAffinityEnabled: false
     httpsOnly: true
     siteConfig: {
       http20Enabled: true
