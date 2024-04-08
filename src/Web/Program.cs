@@ -4,6 +4,9 @@ using Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Removes server header
+builder.WebHost.UseKestrel(options => options.AddServerHeader = false);
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -34,9 +37,12 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
+
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseSecurityHeaders();
 
 app.UseStatusCodePagesWithReExecute("/error/{0}");
 
