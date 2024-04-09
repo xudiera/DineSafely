@@ -4,6 +4,8 @@ using Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddResponseCompression(options => options.EnableForHttps = true);
+
 // Removes server header
 builder.WebHost.UseKestrel(options => options.AddServerHeader = false);
 
@@ -20,6 +22,8 @@ builder.Services.AddMiniProfiler().AddEntityFramework();
 builder.Services.AddRepositories();
 
 var app = builder.Build();
+
+app.UseResponseCompression();
 
 // TODO: Do migrations properly.
 // See: https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying?tabs=dotnet-core-cli
