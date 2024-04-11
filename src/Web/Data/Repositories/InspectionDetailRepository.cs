@@ -37,7 +37,7 @@ public class InspectionDetailRepository(ApplicationDbContext applicationDbContex
         return new PaginatedList<InspectionDetail>(inspectionDetails, totalItems, pageIndex, PageSize);
     }
 
-    public async Task<List<SeverityGroupDTO>> GetGroupBySeverity(int establishmentId)
+    public async Task<List<SeverityGroup>> GetGroupBySeverity(int establishmentId)
         => await Context.InspectionDetails
             .Join(Context.Inspections,
                     inspectionDetail => inspectionDetail.InspectionId,
@@ -46,11 +46,7 @@ public class InspectionDetailRepository(ApplicationDbContext applicationDbContex
                     )
             .Where(combined => combined.Inspection.EstablishmentId == establishmentId)
             .GroupBy(combined => combined.InspectionDetail.Severity)
-            .Select(groupedData => new SeverityGroupDTO
-            {
-                Severity = groupedData.Key,
-                Count = groupedData.Count()
-            })
+            .Select(groupedData => new SeverityGroup(groupedData.Count(), groupedData.Key))
             .AsNoTracking()
             .ToListAsync();
 }

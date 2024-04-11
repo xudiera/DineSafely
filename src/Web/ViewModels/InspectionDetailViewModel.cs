@@ -6,7 +6,7 @@ namespace Web.ViewModels;
 
 public class InspectionDetailViewModel
 {
-    public InspectionDetailViewModel(ICollection<SeverityGroupDTO> severityGroups)
+    public InspectionDetailViewModel(ICollection<SeverityGroup> severityGroups)
     {
         if (severityGroups is null || severityGroups.Count == 0)
         {

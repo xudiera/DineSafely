@@ -25,7 +25,7 @@ public class InspectionControllerTests
         mockRepository.GetByEstablishmentIdAsync(id, pageIndex).Returns(inspectionDetails);
 
         // Ensure that the repository returns some severity groups
-        var severityGroups = new List<SeverityGroupDTO> { new() { Count = 2, Severity = Severity.NotApplicable } };
+        var severityGroups = new List<SeverityGroup> { new(2, Severity.NotApplicable) };
         mockRepository.GetGroupBySeverity(id).Returns(Task.FromResult(severityGroups));
 
         using var controller = new InspectionController(mockRepository);

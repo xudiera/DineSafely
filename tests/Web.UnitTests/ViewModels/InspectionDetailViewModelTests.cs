@@ -11,13 +11,13 @@ public class InspectionDetailViewModelTests
     public void Constructor_ValidSeverityGroups_CalculatesPercentagesCorrectly()
     {
         // Arrange
-        var severityGroups = new List<SeverityGroupDTO>
+        var severityGroups = new List<SeverityGroup>
         {
-            new() { Severity = Severity.Minor, Count = 3 },
-            new() { Severity = Severity.Significant, Count = 2 },
-            new() { Severity = Severity.Crucial, Count = 2 },
-            new() { Severity = Severity.NotApplicable, Count = 1 },
-            new() { Severity = null, Count = 1 }
+            new(3, Severity.Minor),
+            new(2, Severity.Significant),
+            new(2, Severity.Crucial),
+            new(1, Severity.NotApplicable),
+            new(1, null)
         };
 
         // Act

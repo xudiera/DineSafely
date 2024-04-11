@@ -7,5 +7,5 @@ public interface IInspectionDetailRepository
 {
     Task<PaginatedList<InspectionDetail>> GetByEstablishmentIdAsync(int id, int pageIndex);
 
-    Task<List<SeverityGroupDTO>> GetGroupBySeverity(int establishmentId);
+    Task<List<SeverityGroup>> GetGroupBySeverity(int establishmentId);
 }
