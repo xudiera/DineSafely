@@ -12,11 +12,25 @@ public class EstablishmentRepository(ApplicationDbContext applicationDbContext) 
 
 #pragma warning disable CA1304 // Specify CultureInfo
 #pragma warning disable CA1311 // Specify a culture or use an invariant version
-        var totalItems = await Context.Establishments
-            .CountAsync(e => EF.Functions.Like(e.Name.ToLower(), $"%{name}%") && EF.Functions.Like(e.Address.ToLower(), $"%{address}%"));
+        var establishmentCountQuery = Context.Establishments
+            .Where(e => EF.Functions.Like(e.Name.ToLower(), $"%{name}%"));
 
-        var establishments = await Context.Establishments
-            .Where(e => EF.Functions.Like(e.Name.ToLower(), $"%{name}%") && EF.Functions.Like(e.Address.ToLower(), $"%{address}%"))
+        if (address is not null)
+        {
+            establishmentCountQuery = establishmentCountQuery.Where(e => EF.Functions.Like(e.Address.ToLower(), $"%{address}%"));
+        }
+
+        var totalItems = await establishmentCountQuery.CountAsync();
+
+        var establishmentQuery = Context.Establishments
+            .Where(e => EF.Functions.Like(e.Name.ToLower(), $"%{name}%"));
+
+        if (address is not null)
+        {
+            establishmentQuery = establishmentQuery.Where(e => EF.Functions.Like(e.Address.ToLower(), $"%{address}%"));
+        }
+
+        var establishments = await establishmentQuery
             .OrderBy(e => e.Name)
             .ThenBy(e => e.Address)
             .ThenBy(e => e.Type)
