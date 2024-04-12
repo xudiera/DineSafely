@@ -89,7 +89,7 @@
                     <td>@inspectionDetails.InfractionDetails</td>
                     <td>@inspectionDetails.Action</td>
                     <td>@inspectionDetails.CourtOutcome</td>
-                    <td>@inspectionDetails.AmountFined?.ToString("C")</td>
+                    <td>@string.Format("{0:C}", @inspectionDetails.AmountFined)</td>
                 </tr>
             }
         </tbody>
