@@ -1,3 +1,4 @@
+@using System.Globalization
 @using Web.Extensions
 @model InspectionDetailViewModel
 
@@ -89,7 +90,7 @@
                     <td>@inspectionDetails.InfractionDetails</td>
                     <td>@inspectionDetails.Action</td>
                     <td>@inspectionDetails.CourtOutcome</td>
-                    <td>@string.Format("{0:C}", @inspectionDetails.AmountFined)</td>
+                    <td>@inspectionDetails.AmountFined?.ToString("C", new CultureInfo("en-CA"))</td>
                 </tr>
             }
         </tbody>

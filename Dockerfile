@@ -13,7 +13,7 @@ COPY src/Web/. .
 RUN dotnet publish -c $configuration -o /app --no-restore
 
 # Final stage image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-jammy-chiseled
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-jammy-chiseled-extra
 WORKDIR /app
 COPY --from=build /app .
 ENTRYPOINT ["./Web"]
